@@ -10,3 +10,7 @@ type AuthHandler struct{}
 func (h AuthHandler) LoginPage(c echo.Context) error {
 	return Render(c, templates.Login())
 }
+
+func (h AuthHandler) SignUpPage(c echo.Context) error {
+	return Render(c, templates.SignUp())
+}
