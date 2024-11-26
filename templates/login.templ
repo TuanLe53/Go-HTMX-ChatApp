@@ -1,0 +1,21 @@
+package templates
+
+import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/layout"
+
+templ Login(){
+    @layout.Layout(){
+        <h3>Login Form</h3>
+        <form hx-post="/login" hx-target="#error-message">
+            <div id="error-message"></div>
+            <div>
+                <label>Email Address</label>
+                <input name="email" type="email" required>
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit">Sign up</button>
+        </form>
+    }
+}
