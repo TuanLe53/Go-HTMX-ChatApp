@@ -43,7 +43,7 @@ func SignUp() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h3>Signup Form</h3><form hx-post=\"/signup\"><div><label>Email Address</label> <input name=\"email\" type=\"email\"></div><div class=\"form-group\"><label>Username</label> <input type=\"text\" class=\"form-control\" name=\"username\"></div><div class=\"form-group\"><label>Password</label> <input type=\"password\" class=\"form-control\" name=\"password\"></div><button type=\"submit\">Sign up</button></form>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h3>Signup Form</h3><form hx-post=\"/signup\" hx-target=\"#error-message\"><div id=\"error-message\"></div><div><label>Email Address</label> <input name=\"email\" type=\"email\" required></div><div><label>Username</label> <input type=\"text\" name=\"username\" required></div><div><label>Password</label> <input type=\"password\" name=\"password\" required></div><div><label>Confirm password</label> <input type=\"password\" name=\"confirm_password\" required></div><button type=\"submit\">Sign up</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
