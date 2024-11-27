@@ -1,13 +1,15 @@
 package templates
 
 import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/layout"
+import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
 
 templ Index() {
     @layout.Layout(){
         <div>
             Home Page
-            <div id="rooms"></div>
-            <button>Create room</button>
+            <div class="slide-it">
+                @components.RoomList()
+            </div>
         </div>
     }
 }
