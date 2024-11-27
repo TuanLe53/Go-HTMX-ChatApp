@@ -41,6 +41,7 @@ func main() {
 
 	roomHandler := handlers.RoomHandler{}
 	app.GET("/room/new", roomHandler.GetCreateRoomComponent)
+	app.GET("/room/list", roomHandler.GetRoomList)
 
 	app.Logger.Fatal(app.Start(":5050"))
 }
