@@ -1,7 +1,13 @@
 package templates
 
+import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/layout"
+
 templ Index() {
-    <div>
-        Home Page
-    </div>
+    @layout.Layout(){
+        <div>
+            Home Page
+            <div id="rooms"></div>
+            <button>Create room</button>
+        </div>
+    }
 }
