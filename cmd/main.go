@@ -15,6 +15,8 @@ import (
 func main() {
 	app := echo.New()
 
+	app.Static("/static", "assets")
+
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 
@@ -36,6 +38,9 @@ func main() {
 	app.POST("/login", authHandler.HandleLoginUser)
 	app.GET("/signup", authHandler.SignUpPage)
 	app.POST("/signup", authHandler.HandleSignUpUser)
+
+	roomHandler := handlers.RoomHandler{}
+	app.GET("/room/new", roomHandler.CreateRoomModal)
 
 	app.Logger.Fatal(app.Start(":5050"))
 }
