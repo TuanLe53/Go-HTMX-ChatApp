@@ -40,7 +40,7 @@ func main() {
 	app.POST("/signup", authHandler.HandleSignUpUser)
 
 	roomHandler := handlers.RoomHandler{}
-	app.GET("/room/new", roomHandler.CreateRoomModal)
+	app.GET("/room/new", roomHandler.GetCreateRoomComponent)
 
 	app.Logger.Fatal(app.Start(":5050"))
 }
