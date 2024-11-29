@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -64,7 +65,8 @@ func (h AuthHandler) HandleLoginUser(c echo.Context) error {
 	// Check if the email exists
 	user, err := models.FindUserWithEmail(email)
 	if err != nil {
-		return Render(c, components.ErrorMessage(err.Error()))
+		fmt.Println("Error finding user by email:", err)
+		return Render(c, components.ErrorMessage("An error occurred, please try again later."))
 	}
 
 	// Check if user is nil (no such user)
@@ -72,11 +74,27 @@ func (h AuthHandler) HandleLoginUser(c echo.Context) error {
 		return Render(c, components.ErrorMessage("User with this email does not exist"))
 	}
 
+	//Compare passwords
 	hashedPW := user.Password
 	err = auth.CheckPw(hashedPW, password)
 	if err != nil {
 		return Render(c, components.ErrorMessage("Incorrect password"))
 	}
+
+	claims := auth.CreateJWTClaims(user.ID.String(), user.Name)
+	token, err := auth.GenerateToken(*claims)
+	if err != nil {
+		fmt.Println("This is an error", err)
+		return Render(c, components.ErrorMessage("Error logging in user."))
+	}
+
+	cookie, err := CreateCookie("access_token", token, 15)
+	if err != nil {
+		fmt.Println("Error creating cookie", err)
+		return Render(c, components.ErrorMessage("Error logging in user."))
+	}
+
+	c.SetCookie(cookie)
 
 	c.Response().Header().Set("hx-redirect", "/")
 	return c.NoContent(http.StatusSeeOther)
