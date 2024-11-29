@@ -18,7 +18,7 @@ func CreateJWTClaims(id string, name string) *jwtClaims {
 		id,
 		name,
 		jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 15)),
 		},
 	}
 }
@@ -28,7 +28,7 @@ func GenerateToken(claims jwtClaims) (string, error) {
 
 	secret := os.Getenv("SECRET_KEY")
 
-	t, err := token.SignedString(secret)
+	t, err := token.SignedString([]byte(secret))
 	if err != nil {
 		return "", err
 	}
