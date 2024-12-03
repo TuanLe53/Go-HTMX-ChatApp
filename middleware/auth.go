@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/TuanLe53/Go-HTMX-ChatApp/pkg/auth"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,8 +25,15 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 				return c.NoContent(http.StatusSeeOther)
 			}
 		}
+
 		// Log the cookie value
-		log.Printf("Cookie: Name=%s, Value=%s", cookie.Name, cookie.Value)
+		log.Printf("Token available")
+		_, err = auth.ValidateToken(cookie.Value)
+		if err != nil {
+			log.Println("Invalid token: ", err)
+			c.Response().Header().Set("hx-redirect", "/login")
+			return c.NoContent(http.StatusSeeOther)
+		}
 
 		return next(c)
 	}
