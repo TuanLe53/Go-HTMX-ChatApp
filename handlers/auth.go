@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -65,7 +65,7 @@ func (h AuthHandler) HandleLoginUser(c echo.Context) error {
 	// Check if the email exists
 	user, err := models.FindUserWithEmail(email)
 	if err != nil {
-		fmt.Println("Error finding user by email:", err)
+		log.Println("Error finding user by email:", err)
 		return Render(c, components.ErrorMessage("An error occurred, please try again later."))
 	}
 
@@ -84,13 +84,13 @@ func (h AuthHandler) HandleLoginUser(c echo.Context) error {
 	claims := auth.CreateJWTClaims(user.ID.String(), user.Name)
 	token, err := auth.GenerateToken(*claims)
 	if err != nil {
-		fmt.Println("This is an error", err)
+		log.Println("This is an error", err)
 		return Render(c, components.ErrorMessage("Error logging in user."))
 	}
 
-	cookie, err := CreateCookie("access_token", token, 15)
+	cookie, err := CreateCookie("access", token, 15)
 	if err != nil {
-		fmt.Println("Error creating cookie", err)
+		log.Println("Error creating cookie", err)
 		return Render(c, components.ErrorMessage("Error logging in user."))
 	}
 
