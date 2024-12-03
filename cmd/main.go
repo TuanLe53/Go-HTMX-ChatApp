@@ -6,10 +6,11 @@ import (
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/handlers"
+	custommiddleware "github.com/TuanLe53/Go-HTMX-ChatApp/middleware"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/templates"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	echomiddleware "github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -17,8 +18,8 @@ func main() {
 
 	app.Static("/static", "assets")
 
-	app.Use(middleware.Logger())
-	app.Use(middleware.Recover())
+	app.Use(echomiddleware.Logger())
+	app.Use(echomiddleware.Recover())
 
 	err := godotenv.Load()
 	if err != nil {
@@ -39,9 +40,12 @@ func main() {
 	app.GET("/signup", authHandler.SignUpPage)
 	app.POST("/signup", authHandler.HandleSignUpUser)
 
+	authGroup := app.Group("")
+	authGroup.Use(custommiddleware.JWTAuthMiddleware)
+
 	roomHandler := handlers.RoomHandler{}
-	app.GET("/room/new", roomHandler.GetCreateRoomComponent)
-	app.GET("/room/list", roomHandler.GetRoomList)
+	authGroup.GET("/room/new", roomHandler.GetCreateRoomComponent)
+	authGroup.GET("/room/list", roomHandler.GetRoomList)
 
 	app.Logger.Fatal(app.Start(":5050"))
 }
