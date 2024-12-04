@@ -23,3 +23,17 @@ func Upgrade(c echo.Context) (*websocket.Conn, error) {
 
 	return conn, nil
 }
+
+func ServeWS(c echo.Context) error {
+	conn, err := Upgrade(c)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	client := newClient(conn)
+
+	log.Println("Client", client)
+
+	return nil
+}
