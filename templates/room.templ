@@ -1,0 +1,12 @@
+package templates
+
+import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/layout"
+import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
+
+templ Room(room *models.Room) {
+    @layout.Layout(){
+        <div>
+            <p>{room.Name}</p>
+        </div>
+    }
+}
