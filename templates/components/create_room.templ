@@ -2,6 +2,17 @@ package components
 
 templ CreateRoom() {
     <p>Create room form</p>
+    <form>
+        <div id="error-message"></div>
+        <div>
+            <label>Email Address</label>
+            <input name="email" type="email" required>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+    </form>
     <button hx-get="/room/list" hx-swap="innerHTML transition:true" hx-target=".slide-it">
         Back
     </button>
