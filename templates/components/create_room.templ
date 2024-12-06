@@ -2,20 +2,23 @@ package components
 
 templ CreateRoom() {
     <p>Create room form</p>
-    <form>
+    <form hx-post="/room/new" hx-target="#error-message">
         <div id="error-message"></div>
         <div>
             <label for="name">Room name</label>
             <input id="name" name="name" type="text" required>
         </div>
+
         <label for="private">Private</label>
-        <input id="private" name="private" type="checkbox" />
+        <input id="private" name="private" type="checkbox" value="true"/>
+
         <div class="optional-password">
             <label for="password">Password</label>
             <input id="password" type="password" name="password">
         </div>
+        <button type="submit">Create</button>
     </form>
-    <button hx-get="/room/list" hx-swap="innerHTML transition:true" hx-target=".slide-it">
+    <button type="button" hx-get="/room/list" hx-swap="innerHTML transition:true" hx-target=".slide-it">
         Back
     </button>
 }
