@@ -1,3 +1,10 @@
+.optional-password {
+    display: none;
+}
+#private:checked ~ .optional-password {
+    display: block;
+}
+
 @keyframes fade-in {
     from { opacity: 0; }
 }
