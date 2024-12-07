@@ -1,0 +1,10 @@
+package components
+
+import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
+
+templ RoomCard(room models.Room) {
+    <div>
+        <p>{room.Name}</p>
+        <button type="button">Join</button>
+    </div>    
+}
