@@ -45,3 +45,12 @@ func CreateChatRoom(name, password string, isPrivate bool) *Room {
 
 	return &room
 }
+
+func GetRooms(limit, offset int) ([]Room, error) {
+	db := db.DB()
+
+	var rooms []Room
+	err := db.Limit(limit).Offset(offset).Find(&rooms).Error
+
+	return rooms, err
+}
