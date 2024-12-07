@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -14,9 +16,19 @@ type Room struct {
 	Password  string    `gorm:"type:varchar(255)"`
 }
 
-func FindRoomByID(roomID string) *Room {
+func FindRoomByID(roomID string) (*Room, error) {
+	db := db.DB()
 
-	return &Room{Name: "Hehe"}
+	var room Room
+	result := db.Where("id = ?", roomID).First(&room)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, errors.New("error looking for room")
+	}
+
+	return &room, nil
 }
 
 func CreateChatRoom(name, password string, isPrivate bool) *Room {
