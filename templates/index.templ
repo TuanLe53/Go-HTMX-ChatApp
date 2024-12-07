@@ -2,13 +2,14 @@ package templates
 
 import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/layout"
 import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
+import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 
-templ Index() {
+templ Index(rooms []models.Room) {
     @layout.Layout(){
         <div>
             Home Page
             <div class="slide-it">
-                @components.RoomList()
+                @components.RoomList(rooms)
             </div>
         </div>
     }
