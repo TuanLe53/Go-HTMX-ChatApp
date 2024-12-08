@@ -4,7 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/TuanLe53/Go-HTMX-ChatApp/handlers"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/pkg/auth"
+	"github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
 	"github.com/labstack/echo/v4"
 )
 
@@ -16,13 +18,11 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			if err == http.ErrNoCookie {
 				// Cookie not found
 				log.Println("No access cookie found")
-				c.Response().Header().Set("hx-redirect", "/login")
-				return c.NoContent(http.StatusSeeOther)
+				return handlers.Render(c, components.AccessDenied())
 			} else {
 				// Some other error
 				log.Println("Error retrieving cookie:", err)
-				c.Response().Header().Set("hx-redirect", "/login")
-				return c.NoContent(http.StatusSeeOther)
+				return handlers.Render(c, components.ErrorMessage("Something went wrong. Please try again later"))
 			}
 		}
 
