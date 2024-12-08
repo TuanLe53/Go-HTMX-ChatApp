@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
+	"github.com/TuanLe53/Go-HTMX-ChatApp/templates"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
 	"github.com/labstack/echo/v4"
 )
@@ -24,4 +25,19 @@ func (h RoomHandler) GetRoomList(c echo.Context) error {
 	}
 
 	return Render(c, components.RoomList(rooms))
+}
+
+func (h RoomHandler) CreateRoom(c echo.Context) error {
+	roomName := c.FormValue("name")
+	password := c.FormValue("password")
+	private := c.FormValue("private")
+	isPrivate := private == "true"
+
+	if isPrivate && password == "" {
+		return Render(c, components.ErrorMessage("Please provide password"))
+	}
+
+	room := models.CreateChatRoom(roomName, password, isPrivate)
+
+	return Render(c, templates.Room(room))
 }
