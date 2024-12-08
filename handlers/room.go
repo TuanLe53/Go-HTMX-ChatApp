@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
-	"github.com/TuanLe53/Go-HTMX-ChatApp/templates"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
 	"github.com/labstack/echo/v4"
 )
@@ -14,13 +16,12 @@ func (h RoomHandler) GetCreateRoomComponent(c echo.Context) error {
 }
 
 func (h RoomHandler) GetRoomList(c echo.Context) error {
-	return Render(c, components.RoomList())
-}
+	rooms, err := models.GetRooms(10, 0)
+	if err != nil {
+		log.Println("Error getting room list", err)
+		c.Response().Header().Set("hx-redirect", "/")
+		return c.NoContent(http.StatusSeeOther)
+	}
 
-func (h RoomHandler) JoinRoom(c echo.Context) error {
-	roomID := c.Param("roomID")
-
-	room := models.FindRoomByID(roomID)
-
-	return Render(c, templates.Room(room))
+	return Render(c, components.RoomList(rooms))
 }
