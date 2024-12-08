@@ -6,11 +6,8 @@ import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 
 templ Index(rooms []models.Room) {
     @layout.Layout(){
-        <div>
-            Home Page
-            <div class="slide-it">
-                @components.RoomList(rooms)
-            </div>
+        <div id="container" class="slide-it h-full flex flex-col items-center justify-center">
+            @components.RoomList(rooms)
         </div>
     }
 }

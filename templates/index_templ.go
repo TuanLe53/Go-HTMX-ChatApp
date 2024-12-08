@@ -10,8 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/layout"
 import "github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
+import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 
-func Index() templ.Component {
+func Index(rooms []models.Room) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -44,15 +45,15 @@ func Index() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Home Page<div class=\"slide-it\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"container\" class=\"slide-it h-full flex flex-col items-center justify-center\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.RoomList().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.RoomList(rooms).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
