@@ -1,10 +1,11 @@
 package components
 
 import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
+import "fmt"
 
-templ RoomCard(room models.Room) {
+templ RoomCard(room *models.Room) {
     <div>
         <p>{room.Name}</p>
-        <button type="button">Join</button>
+        <a href={templ.URL(fmt.Sprintf("/room/%s", room.ID))}>Join</a>
     </div>    
 }
