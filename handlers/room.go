@@ -57,16 +57,31 @@ func (h RoomHandler) GetRoom(c echo.Context) error {
 	}
 
 	if room.IsPrivate {
-		return Render(c, components.VerifyPassword(roomID))
+		return Render(c, components.VerifyPassword(roomID, ""))
 	}
 
 	return Render(c, templates.Room(room))
 }
 
-// func (h RoomHandler) JoinRoom(c echo.Context) error {
-// 	roomID := c.Param("roomID")
+func (h RoomHandler) VerifyPassword(c echo.Context) error {
+	roomID := c.Param("roomID")
 
-// 	room := models.FindRoomByID(roomID)
+	room, err := models.FindRoomByID(roomID)
+	if err != nil {
+		log.Println("Error finding room", err)
+		return Render(c, components.Error("An error occurred while trying to find the room."))
+	}
 
-// 	return Render(c, templates.Room(room))
-// }
+	if room == nil {
+		log.Println("Room does not exist")
+		return Render(c, components.Error("Room does not exist."))
+	}
+
+	password := c.FormValue("password")
+	if room.Password != password {
+		log.Println("Incorrect password")
+		return Render(c, components.VerifyPassword(roomID, "Incorrect password"))
+	}
+
+	return Render(c, templates.Room(room))
+}
