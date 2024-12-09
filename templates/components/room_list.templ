@@ -5,7 +5,7 @@ import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 templ RoomList(rooms []models.Room) {
     <ul>
         for _, room := range rooms{
-            <li>{room.Name}</li>
+            @RoomCard(&room)
         }
     </ul>
     <button hx-get="/room/new" hx-swap="innerHTML transition:true" hx-target=".slide-it">
