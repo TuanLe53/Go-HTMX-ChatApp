@@ -56,6 +56,10 @@ func (h RoomHandler) GetRoom(c echo.Context) error {
 		return Render(c, components.Error("Room does not exist."))
 	}
 
+	if room.IsPrivate {
+		return Render(c, components.VerifyPassword(roomID))
+	}
+
 	return Render(c, templates.Room(room))
 }
 
