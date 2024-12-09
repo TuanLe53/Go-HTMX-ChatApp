@@ -41,3 +41,28 @@ func (h RoomHandler) CreateRoom(c echo.Context) error {
 
 	return Render(c, templates.Room(room))
 }
+
+func (h RoomHandler) GetRoom(c echo.Context) error {
+	roomID := c.Param("roomID")
+
+	room, err := models.FindRoomByID(roomID)
+	if err != nil {
+		log.Println("Error finding room", err)
+		return Render(c, components.Error("An error occurred while trying to find the room."))
+	}
+
+	if room == nil {
+		log.Println("Room does not exist")
+		return Render(c, components.Error("Room does not exist."))
+	}
+
+	return Render(c, templates.Room(room))
+}
+
+// func (h RoomHandler) JoinRoom(c echo.Context) error {
+// 	roomID := c.Param("roomID")
+
+// 	room := models.FindRoomByID(roomID)
+
+// 	return Render(c, templates.Room(room))
+// }
