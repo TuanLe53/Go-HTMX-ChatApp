@@ -61,7 +61,7 @@ func main() {
 	authGroup.GET("/room/new", roomHandler.GetCreateRoomComponent)
 	authGroup.POST("/room/new", roomHandler.CreateRoom)
 	authGroup.GET("/room/:roomID", roomHandler.GetRoom)
-	// authGroup.GET("/room/join/:roomID", roomHandler.JoinRoom)
+	authGroup.POST("/room/:roomID/verify-password", roomHandler.VerifyPassword)
 
 	app.Logger.Fatal(app.Start(":5050"))
 }
