@@ -6,6 +6,13 @@ import "fmt"
 templ RoomCard(room *models.Room) {
     <div>
         <p>{room.Name}</p>
-        <a href={templ.URL(fmt.Sprintf("/room/%s", room.ID))}>Join</a>
+        <button
+            type="button" 
+            hx-get={ string(templ.URL(fmt.Sprintf("/room/%s", room.ID)))}
+            hx-swap="innerHTML transition:true" 
+            hx-target="#container"
+        >
+            Join
+        </button>
     </div>    
 }
