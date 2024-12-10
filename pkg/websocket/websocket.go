@@ -24,16 +24,17 @@ func Upgrade(c echo.Context) (*websocket.Conn, error) {
 	return conn, nil
 }
 
-func ServeWS(c echo.Context) error {
+func ServeWS(c echo.Context, WsServer *WSServer) error {
 	conn, err := Upgrade(c)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 
-	client := newClient(conn)
+	client := newClient(conn, WsServer)
 
-	log.Println("Client", client)
+	WsServer.Register <- client
+	client.Read()
 
 	return nil
 }
