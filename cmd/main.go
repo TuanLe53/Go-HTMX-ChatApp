@@ -34,6 +34,9 @@ func main() {
 
 	wsServer := websocket.NewWsServer()
 	go wsServer.Start()
+	app.GET("/ws", func(c echo.Context) error {
+		return websocket.ServeWS(c, wsServer)
+	})
 
 	app.GET("/", func(c echo.Context) error {
 		rooms, err := models.GetRooms(10, 0)
