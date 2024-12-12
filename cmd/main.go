@@ -62,9 +62,15 @@ func main() {
 	authGroup.Use(custommiddleware.JWTAuthMiddleware)
 
 	authGroup.GET("/room/new", roomHandler.GetCreateRoomComponent)
-	authGroup.POST("/room/new", roomHandler.CreateRoom)
-	authGroup.GET("/room/:roomID", roomHandler.GetRoom)
-	authGroup.POST("/room/:roomID/verify-password", roomHandler.VerifyPassword)
+	authGroup.POST("/room/new", func(c echo.Context) error {
+		return roomHandler.CreateRoom(c, wsServer)
+	})
+	authGroup.GET("/room/:roomID", func(c echo.Context) error {
+		return roomHandler.GetRoom(c, wsServer)
+	})
+	authGroup.POST("/room/:roomID/verify-password", func(c echo.Context) error {
+		return roomHandler.VerifyPassword(c, wsServer)
+	})
 
 	app.Logger.Fatal(app.Start(":5050"))
 }
