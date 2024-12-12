@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
+	"github.com/TuanLe53/Go-HTMX-ChatApp/pkg/websocket"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/templates"
 	"github.com/TuanLe53/Go-HTMX-ChatApp/templates/components"
 	"github.com/labstack/echo/v4"
@@ -27,7 +28,7 @@ func (h RoomHandler) GetRoomList(c echo.Context) error {
 	return Render(c, components.RoomList(rooms))
 }
 
-func (h RoomHandler) CreateRoom(c echo.Context) error {
+func (h RoomHandler) CreateRoom(c echo.Context, ws *websocket.WSServer) error {
 	roomName := c.FormValue("name")
 	password := c.FormValue("password")
 	private := c.FormValue("private")
@@ -38,11 +39,12 @@ func (h RoomHandler) CreateRoom(c echo.Context) error {
 	}
 
 	room := models.CreateChatRoom(roomName, password, isPrivate)
+	ws.CreateRoom(room)
 
 	return Render(c, templates.Room(room))
 }
 
-func (h RoomHandler) GetRoom(c echo.Context) error {
+func (h RoomHandler) GetRoom(c echo.Context, ws *websocket.WSServer) error {
 	roomID := c.Param("roomID")
 
 	room, err := models.FindRoomByID(roomID)
@@ -60,10 +62,15 @@ func (h RoomHandler) GetRoom(c echo.Context) error {
 		return Render(c, components.VerifyPassword(roomID, ""))
 	}
 
+	foundRoom := ws.FindRoomById(room.ID)
+	if foundRoom == nil {
+		ws.CreateRoom(room)
+	}
+
 	return Render(c, templates.Room(room))
 }
 
-func (h RoomHandler) VerifyPassword(c echo.Context) error {
+func (h RoomHandler) VerifyPassword(c echo.Context, ws *websocket.WSServer) error {
 	roomID := c.Param("roomID")
 
 	room, err := models.FindRoomByID(roomID)
@@ -81,6 +88,11 @@ func (h RoomHandler) VerifyPassword(c echo.Context) error {
 	if room.Password != password {
 		log.Println("Incorrect password")
 		return Render(c, components.VerifyPassword(roomID, "Incorrect password"))
+	}
+
+	foundRoom := ws.FindRoomById(room.ID)
+	if foundRoom == nil {
+		ws.CreateRoom(room)
 	}
 
 	return Render(c, templates.Room(room))
