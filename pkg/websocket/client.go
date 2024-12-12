@@ -24,6 +24,7 @@ func newClient(conn *websocket.Conn, WsServer *WSServer, room *ChatRoom) *Client
 func (c *Client) Read() {
 	defer func() {
 		c.WsServer.Unregister <- c
+		c.Room.Unregister <- c
 		c.conn.Close()
 	}()
 
