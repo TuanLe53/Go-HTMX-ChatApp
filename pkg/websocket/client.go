@@ -40,6 +40,8 @@ func (c *Client) Read() {
 			log.Fatal("Error Unmarshalling message")
 		}
 
+		message.Target = c.Room.ID
+
 		c.WsServer.Broadcast <- &message
 	}
 }
