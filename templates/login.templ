@@ -10,25 +10,53 @@ templ Login(){
             <form 
                 hx-post="/login" 
                 hx-target="#error-message"
-                class="bg-blue-300 w-2/5"
+                class="bg-blue-300 w-2/5 p-2 rounded-lg"
             >
-                <h3 class="text-center text-3xl font-semibold">Login Form</h3>
+                <h3 class="text-center text-3xl font-semibold mb-3">Login Form</h3>
+                <div>
+                    <label 
+                        for="email"
+                        class="text-xl font-semibold"
+                    >
+                        Email:
+                    </label><br />
+                    <input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        required
+                        class="w-full"
+                    >
+                </div>
+                <div>
+                    <label 
+                        for="password"
+                        class="text-xl font-semibold"
+                    >
+                        Password:
+                    </label><br />
+                    <input 
+                        id="password" 
+                        type="password" 
+                        name="password" 
+                        required
+                        class="w-full"
+                    >
+                </div>
                 <div id="error-message"></div>
-                <div>
-                    <label>Email Address</label>
-                    <input name="email" type="email" required>
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" name="password" required>
-                </div>
-                <div>
+                <div class="mt-2 flex justify-end items-center gap-2">
                     <a
                         href="/signup"
+                        class="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600"
                     >
                         Register
                     </a>
-                    <button type="submit">Login</button>
+                    <button 
+                        type="submit"
+                        class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700"
+                    >
+                        Login
+                    </button>
                 </div>
             </form>
         </div>
