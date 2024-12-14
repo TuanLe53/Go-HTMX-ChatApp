@@ -34,9 +34,12 @@ func (h AuthHandler) HandleSignUpUser(c echo.Context) error {
 	}
 
 	// Check if the email exists
-	_, err := models.FindUserWithEmail(email)
+	isEmailExists, err := models.FindUserWithEmail(email)
 	if err != nil {
 		return Render(c, components.ErrorMessage(err.Error()))
+	}
+	if isEmailExists != nil {
+		return Render(c, components.ErrorMessage("Email already taken."))
 	}
 
 	if strings.TrimSpace(password) != strings.TrimSpace(confirm_password) {
@@ -82,7 +85,7 @@ func (h AuthHandler) HandleLoginUser(c echo.Context) error {
 	}
 
 	claims := auth.CreateJWTClaims(user.ID.String(), user.Name)
-	token, err := auth.GenerateToken(*claims)
+	token, err := auth.GenerateToken(claims)
 	if err != nil {
 		log.Println("This is an error", err)
 		return Render(c, components.ErrorMessage("Error logging in user."))
