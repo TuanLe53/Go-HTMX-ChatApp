@@ -2,8 +2,7 @@ package components
 
 templ CreateRoom() {
     <p>Create room form</p>
-    <form hx-post="/room/new" hx-target="#error-message">
-        <div id="error-message"></div>
+    <form hx-post="/room/new" hx-target="#container" hx-swap="innerHTML transition:true">
         <div>
             <label for="name">Room name</label>
             <input id="name" name="name" type="text" required>
