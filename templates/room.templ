@@ -7,7 +7,7 @@ import "fmt"
 templ Room(room *models.Room) {
     @layout.Layout(){
         <div
-            class="bg-red-300 h-[90%] w-1/2 flex flex-col"
+            class="bg-red-300 h-[90%] w-1/2 max-w-1/2 flex flex-col"
         >
             <p
                 class="text-3xl font-semibold"
@@ -18,7 +18,7 @@ templ Room(room *models.Room) {
                 class="flex flex-row grow"
             >
                 <div
-                    class="bg-blue-300 basis-1/4 flex flex-col"
+                    class="bg-blue-300 w-1/5 min-w-1/5 flex flex-col"
                 >
                     <div
                         class="grow bg-blue-500"
@@ -40,11 +40,11 @@ templ Room(room *models.Room) {
                 <div 
                     hx-ext="ws" 
                     ws-connect={string(templ.URL(fmt.Sprintf("/ws?roomID=%s", room.ID)))}
-                    class="bg-yellow-300 grow flex flex-col"
+                    class="bg-yellow-300 w-4/5 max-w-4/5 flex flex-col"
                 >
                     <div 
                         id="messages"
-                        class="messages grow bg-green-500"
+                        class="messages grow bg-green-500 w-full max-w-3/5"
                     >
 
                     </div>
