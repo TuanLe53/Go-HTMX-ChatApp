@@ -41,15 +41,14 @@ func (room *ChatRoom) Start() {
 			log.Println("Room total members:", len(room.Clients))
 			room.mu.Unlock()
 
-			// for client := range room.Clients {
-			// 	fmt.Println(client)
-			// 	notify := &Message{ClientName: client.ID, Text: "New User Joined..."}
-			// 	err := client.Conn.WriteMessage(websocket.TextMessage, getTemplate("templates/notify.html", notify))
-			// 	if err != nil {
-			// 		fmt.Println("Error writing notify", err)
-			// 		continue
-			// 	}
-			// }
+			notify := &Message{Message: "User Join"}
+			for client := range room.Clients {
+				err := client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/notify.html", notify))
+				if err != nil {
+					log.Println("Error notify users")
+					continue
+				}
+			}
 
 		case client := <-room.Unregister:
 			room.mu.Lock()
@@ -59,17 +58,7 @@ func (room *ChatRoom) Start() {
 
 			fmt.Println("Size of Connection Pool: ", len(room.Clients))
 
-			// for client := range room.Clients {
-			// 	notify := &Message{ClientName: client.ID, Text: "User Disconnected..."}
-			// 	err := client.Conn.WriteMessage(websocket.TextMessage, getTemplate("templates/notify.html", notify))
-			// 	if err != nil {
-			// 		fmt.Println("Error writing notify", err)
-			// 		continue
-			// 	}
-			// }
-
 		case message := <-room.Broadcast:
-			// room.mu.Lock()
 			for client := range room.Clients {
 				err := client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/message.html", message))
 				if err != nil {
@@ -77,7 +66,6 @@ func (room *ChatRoom) Start() {
 					continue
 				}
 			}
-			// room.mu.Unlock()
 		}
 	}
 }
