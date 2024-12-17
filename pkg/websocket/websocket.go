@@ -1,9 +1,11 @@
 package websocket
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
@@ -43,7 +45,26 @@ func ServeWS(c echo.Context, WsServer *WSServer) error {
 		return err
 	}
 
-	client := newClient(conn, WsServer, room)
+	userClaims := c.Get("user")
+	user, ok := userClaims.(jwt.MapClaims)
+	if !ok {
+		log.Println("Failed to retrieve user claims")
+		return fmt.Errorf("invalid user claims")
+	}
+
+	username, ok := user["name"].(string)
+	if !ok {
+		log.Println("Invalid username type in claims")
+		return fmt.Errorf("invalid username type")
+	}
+
+	userID, ok := user["id"].(string)
+	if !ok {
+		log.Println("Invalid user ID type in claims")
+		return fmt.Errorf("invalid user ID type")
+	}
+
+	client := newClient(conn, WsServer, room, username, userID)
 
 	WsServer.Register <- client
 	room.Register <- client
