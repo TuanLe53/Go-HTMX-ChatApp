@@ -11,13 +11,17 @@ type Client struct {
 	conn     *websocket.Conn
 	WsServer *WSServer
 	Room     *ChatRoom
+	Name     string
+	ID       string
 }
 
-func newClient(conn *websocket.Conn, WsServer *WSServer, room *ChatRoom) *Client {
+func newClient(conn *websocket.Conn, WsServer *WSServer, room *ChatRoom, name, id string) *Client {
 	return &Client{
 		conn:     conn,
 		WsServer: WsServer,
 		Room:     room,
+		Name:     name,
+		ID:       id,
 	}
 }
 
