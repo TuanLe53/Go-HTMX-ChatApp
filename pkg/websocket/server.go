@@ -1,7 +1,6 @@
 package websocket
 
 import (
-	"log"
 	"sync"
 
 	"github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
@@ -33,28 +32,20 @@ func (server *WSServer) Start() {
 		case client := <-server.Register:
 			server.mu.Lock()
 			server.Clients[client] = true
-			log.Println("Client join server")
-			log.Println("Server total members:", len(server.Clients))
 			server.mu.Unlock()
 
 		case client := <-server.Unregister:
 			server.mu.Lock()
 			delete(server.Clients, client)
-			log.Println("Client quit")
 			server.mu.Unlock()
 			client.conn.Close()
 
 		case message := <-server.Broadcast:
-			log.Println("Start Broadcast")
-			// server.mu.Lock()
 			room := server.FindRoomById(message.Target)
-			log.Println("Room:", room)
 			if room != nil {
-				log.Println("Send message to Room")
 				room.Broadcast <- message
 			}
 
-			// server.mu.Unlock()
 		}
 	}
 }
