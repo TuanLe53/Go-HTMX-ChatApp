@@ -54,3 +54,22 @@ func GetRooms(limit, offset int) ([]Room, error) {
 
 	return rooms, err
 }
+
+func DeleteRoom(roomID uuid.UUID) error {
+	db := db.DB()
+
+	var room Room
+	result := db.Where("id = ?", roomID).First(&room)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return errors.New("room not found")
+		}
+		return errors.New("error finding room to delete")
+	}
+
+	if err := db.Delete(&room).Error; err != nil {
+		return errors.New("error deleting room")
+	}
+
+	return nil
+}
