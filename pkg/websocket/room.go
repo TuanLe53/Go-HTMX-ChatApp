@@ -40,10 +40,17 @@ func (room *ChatRoom) Start() {
 			room.mu.Unlock()
 
 			notify := &Message{Message: fmt.Sprintf("%s has joined room.", client.Name)}
+			members := getRoomMembers(room)
+
 			for client := range room.Clients {
 				err := client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/notify.html", notify))
 				if err != nil {
 					log.Println("Error notify users")
+					continue
+				}
+				err = client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/member.html", members))
+				if err != nil {
+					log.Println("Error add user to member list")
 					continue
 				}
 			}
@@ -55,10 +62,17 @@ func (room *ChatRoom) Start() {
 			room.mu.Unlock()
 
 			notify := &Message{Message: fmt.Sprintf("%s left room.", client.Name)}
+			members := getRoomMembers(room)
+
 			for client := range room.Clients {
 				err := client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/notify.html", notify))
 				if err != nil {
 					log.Println("Error notify users")
+					continue
+				}
+				err = client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/member.html", members))
+				if err != nil {
+					log.Println("Error remove user to member list")
 					continue
 				}
 			}
@@ -73,4 +87,19 @@ func (room *ChatRoom) Start() {
 			}
 		}
 	}
+}
+
+func getRoomMembers(room *ChatRoom) struct{ Clients []*Client } {
+	clients := []*Client{}
+	for client := range room.Clients {
+		clients = append(clients, client)
+	}
+
+	members := struct {
+		Clients []*Client
+	}{
+		Clients: clients,
+	}
+
+	return members
 }
