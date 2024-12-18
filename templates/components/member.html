@@ -1,0 +1,11 @@
+<div
+    id="members"
+    hx-swap="outerHTML" 
+    hx-swap-oob="outerHTML"
+>
+    <ul>
+        {{range .Clients}}
+            <li>{{.Name}}</li>
+        {{end}}
+    </ul>
+</div>
