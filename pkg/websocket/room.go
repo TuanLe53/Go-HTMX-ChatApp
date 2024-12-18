@@ -64,6 +64,14 @@ func (room *ChatRoom) Start() {
 			notify := &Message{Message: fmt.Sprintf("%s left room.", client.Name)}
 			members := getRoomMembers(room)
 
+			if len(members.Clients) == 0 {
+				err := models.DeleteRoom(room.ID)
+				if err != nil {
+					log.Printf("Error deleting room from database: %v", err)
+				}
+				break
+			}
+
 			for client := range room.Clients {
 				err := client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/notify.html", notify))
 				if err != nil {
