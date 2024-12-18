@@ -67,7 +67,7 @@ func DeleteRoom(roomID uuid.UUID) error {
 		return errors.New("error finding room to delete")
 	}
 
-	if err := db.Delete(&room).Error; err != nil {
+	if err := db.Unscoped().Delete(&room).Error; err != nil {
 		return errors.New("error deleting room")
 	}
 
