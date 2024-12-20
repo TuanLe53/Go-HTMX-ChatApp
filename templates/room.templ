@@ -54,6 +54,7 @@ templ Room(room *models.Room) {
                     <form
                         ws-send
                         class="flex flex-row"
+                        hx-on:htmx:ws-after-send="this.reset()"
                     >
                         <input 
                             type="text"
