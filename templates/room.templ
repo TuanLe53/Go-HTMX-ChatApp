@@ -7,10 +7,10 @@ import "fmt"
 templ Room(room *models.Room) {
     @layout.Layout(){
         <div
-            class="bg-red-300 h-[90%] w-1/2 max-w-1/2 flex flex-col"
+            class="bg-red-300 h-[90%] w-1/2 max-w-1/2 flex flex-col rounded-lg"
         >
             <p
-                class="text-3xl font-semibold"
+                class="pt-2 px-2 text-3xl font-semibold"
             >
                 {room.Name}
             </p>
@@ -23,14 +23,10 @@ templ Room(room *models.Room) {
                     class="bg-blue-300 w-1/5 min-w-1/5 flex flex-col"
                 >
                     <div
-                        class="grow bg-blue-500"
+                        class="grow bg-blue-500 p-1"
+                        id="members"
                     >
-                        <h2 class="text-xl font-semibold">Members</h2>
-                        <div
-                            id="members"
-                        >
 
-                        </div>
                     </div>
                     <button 
                         type="button"
