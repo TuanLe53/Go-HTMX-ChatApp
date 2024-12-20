@@ -2,7 +2,9 @@
     id="members"
     hx-swap="outerHTML" 
     hx-swap-oob="outerHTML"
+    class="grow bg-blue-500 p-1"
 >
+    <h2 class="text-xl font-semibold">Members({{len .Clients}})</h2>
     <ul>
         {{range .Clients}}
             <li>{{.Name}}</li>
