@@ -3,6 +3,7 @@ package websocket
 import (
 	"encoding/json"
 	"log"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -45,6 +46,10 @@ func (c *Client) Read() {
 		}
 
 		message.Target = c.Room.ID
+		message.Sender = c
+
+		currentTime := time.Now()
+		message.SendAt = currentTime.Format("15:04 02/01/2006")
 
 		c.WsServer.Broadcast <- &message
 	}
