@@ -87,6 +87,7 @@ func (room *ChatRoom) Start() {
 
 		case message := <-room.Broadcast:
 			for client := range room.Clients {
+				message.IsSelf = client == message.Sender
 				err := client.conn.WriteMessage(websocket.TextMessage, getTemplate("templates/components/message.html", message))
 				if err != nil {
 					log.Println("Error writing message", err)
