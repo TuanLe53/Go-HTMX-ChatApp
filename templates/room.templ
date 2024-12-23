@@ -7,7 +7,7 @@ import "fmt"
 templ Room(room *models.Room) {
     @layout.Layout(){
         <div
-            class="bg-red-300 h-[90%] w-1/2 max-w-1/2 flex flex-col rounded-lg"
+            class="h-[90%] w-1/2 max-w-1/2 flex flex-col rounded-lg"
         >
             <p
                 class="pt-2 px-2 text-3xl font-semibold"
@@ -39,17 +39,17 @@ templ Room(room *models.Room) {
                     </button>
                 </div>
                 <div 
-                    class="bg-yellow-300 w-4/5 max-w-4/5 flex flex-col"
+                    class="w-4/5 max-w-4/5 bg-green-500 flex flex-col"
                 >
                     <div 
                         id="messages"
-                        class="messages grow bg-green-500 w-full max-w-3/5 p-2"
+                        class="messages grow w-full max-w-3/5 p-2"
                     >
 
                     </div>
                     <form
                         ws-send
-                        class="flex flex-row"
+                        class="flex flex-row items-center gap-2 px-2 py-1"
                         hx-on:htmx:ws-after-send="this.reset()"
                     >
                         <input 
@@ -58,9 +58,10 @@ templ Room(room *models.Room) {
                             min="1"
                             id="message-input"
                             placeholder="Type a message..."
-                            class="grow h-10 rounded-md"
+                            class="grow h-10 rounded-xl"
+                            required
                         />
-                        <button type="submit"><span class="material-symbols-outlined">send</span></button>
+                        <button class="bg-transparent" type="submit"><span class="material-icons text-sky-500">send</span></button>
                     </form>
                 </div>
             </div>
