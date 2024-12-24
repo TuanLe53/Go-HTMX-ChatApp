@@ -1,5 +1,7 @@
 body{
     height: 100vh;
+    background: #5730A5;
+    background: linear-gradient(225deg, #5730A5, #3F0A9B);
 }
 
 .optional-password {
