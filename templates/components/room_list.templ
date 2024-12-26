@@ -3,17 +3,25 @@ package components
 import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 
 templ RoomList(rooms []models.Room) {
-    <ul>
-        for _, room := range rooms{
-            @RoomCard(&room)
-        }
-    </ul>
-    <button 
-        hx-get="/room/new" 
-        hx-swap="innerHTML transition:true" 
-        hx-target=".slide-it"
-        class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700" 
+    <div
+        class="h-[90%] w-full max-w-2xl mx-auto rounded-lg shadow-lg"
     >
-        Create room
-    </button>
+        <div class="flex flex-rows justify-between rounded-t-lg p-2 bg-white">
+            <h1 class="text-2xl font-semibold">Rooms</h1>
+            <button 
+                hx-get="/room/new" 
+                hx-swap="innerHTML transition:true" 
+                hx-target=".slide-it"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+            >
+                <span class="material-icons">add</span>
+                Add Room
+            </button>
+        </div>
+        <ul>
+            for _, room := range rooms{
+                @RoomCard(&room)
+            }
+        </ul>
+    </div>
 }
