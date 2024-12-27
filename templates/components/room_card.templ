@@ -4,13 +4,14 @@ import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 import "fmt"
 
 templ RoomCard(room *models.Room) {
-    <div>
-        <p>{room.Name}</p>
+    <div class="bg-red-300 w-32 h-32 rounded-md">
+        <p class="text-xl">{room.Name}</p>
         <button
             type="button" 
             hx-get={ string(templ.URL(fmt.Sprintf("/room/%s", room.ID)))}
             hx-swap="innerHTML transition:true" 
             hx-target="#container"
+            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md p-2 text-sm dark:bg-blue-600 dark:hover:bg-blue-700"
         >
             Join
         </button>
