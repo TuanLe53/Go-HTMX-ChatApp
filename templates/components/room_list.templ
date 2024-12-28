@@ -18,10 +18,10 @@ templ RoomList(rooms []models.Room) {
                 Add Room
             </button>
         </div>
-        <ul>
+        <div class="grid grid-cols-4 gap-4 p-2">
             for _, room := range rooms{
                 @RoomCard(&room)
             }
-        </ul>
+        </div>
     </div>
 }
