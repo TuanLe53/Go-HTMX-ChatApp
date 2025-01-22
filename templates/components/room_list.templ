@@ -4,9 +4,9 @@ import "github.com/TuanLe53/Go-HTMX-ChatApp/db/models"
 
 templ RoomList(rooms []models.Room) {
     <div
-        class="h-[90%] w-full max-w-2xl mx-auto rounded-lg shadow-lg"
+        class="h-[90%] w-full max-w-2xl mx-auto rounded-lg shadow-lg flex flex-col"
     >
-        <div class="flex flex-rows justify-between rounded-t-lg p-2 bg-white">
+        <div class="flex flex-rows justify-between rounded-t-lg p-2 bg-[#FFFFFF]">
             <h1 class="text-2xl font-semibold">Rooms</h1>
             <button 
                 hx-get="/room/new" 
@@ -18,7 +18,7 @@ templ RoomList(rooms []models.Room) {
                 Add Room
             </button>
         </div>
-        <div class="grid grid-cols-4 gap-4 p-2">
+        <div class="grid grid-cols-4 gap-4 p-2 bg-[#1E1E2F] flex-grow rounded-b-lg">
             for _, room := range rooms{
                 @RoomCard(&room)
             }
