@@ -5,13 +5,13 @@
 >
     {{if .IsSelf}}
     <div class="flex flex-col items-end">
-        <p class="ml-1">{{.Sender.Name}}</p>
-        <p class="text-small w-fit max-w-[75%] break-words p-0.5 px-2 mb-1 rounded-md bg-red-400">{{ .Message }}</p>
+        <p class="ml-1 text-gray-300">{{.Sender.Name}}</p>
+        <p class="text-small text-[#F0F0F0] w-fit max-w-[75%] break-words p-0.5 px-2 mb-1 rounded-md bg-gradient-to-br from-[#6A40B6] to-[#4B278A]">{{ .Message }}</p>
     </div>
     {{else}}
     <div class="flex flex-col items-start">
-        <p class="ml-1">{{.Sender.Name}}</p>
-        <p class="text-small w-fit max-w-[75%] break-words p-0.5 px-2 mb-1 rounded-md bg-red-400">{{ .Message }}</p>
+        <p class="ml-1 text-gray-300">{{.Sender.Name}}</p>
+        <p class="text-small text-[#F0F0F0] w-fit max-w-[75%] break-words p-0.5 px-2 mb-1 rounded-md bg-gradient-to-br from-[#6A40B6] to-[#4B278A]">{{ .Message }}</p>
     </div>
     {{end}}
 </div>
