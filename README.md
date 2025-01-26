@@ -40,7 +40,7 @@ go run main.go
 
 ## Usage
 
-Once the application is running, you can access it via your web browser at `http://localhost:8080`. Join a chat room or create a new one to start chatting with others in real-time.
+Once the application is running, you can access it via your web browser at `http://localhost:5050`. Join a chat room or create a new one to start chatting with others in real-time.
 
 ## Screenshots
 
