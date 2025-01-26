@@ -66,6 +66,14 @@ templ Room(room *models.Room) {
                     </form>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener("htmx:wsAfterMessage", e => {
+                    const messagesDiv = document.getElementById("messages");
+
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                })
+            </script>
         </div>
     }
 }
