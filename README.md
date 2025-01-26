@@ -46,5 +46,7 @@ Once the application is running, you can access it via your web browser at `http
 
 *Include screenshots or GIFs demonstrating the application's interface and functionalities.*
 
-![Screenshot 1](path_to_screenshot_1)
-![Screenshot 2](path_to_screenshot_2)
+![CreateRoom](./screenshots/CreateRoom.png)
+![PasswordVerify](./screenshots/PasswordVerify.png)
+![AccessDenied](./screenshots/AccessDenied.png)
+![Chat](./screenshots/Chat.png)
